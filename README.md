@@ -1,69 +1,76 @@
-Hello dear web portal dev prospect!
+# Task Management Portal
 
-This repository is a playground for your submission which should use PHP in the backend and HTML/JS in the frontend.
+A web application that connects to the baubuddy.de API to display and manage tasks in a responsive interface. Built with PHP, JavaScript, and Bootstrap.
 
-Before getting started, please hit the `Use this template` button to create a new repository on which you commit and push your code regularly for the task below. Once you are done, please mail us the link to your repository.
+## Features
 
-Good luck and have fun ☘️
+- ✨ Fetches and displays task data from baubuddy.de API
+- 🔍 Real-time search functionality across all table data
+- 🔄 Auto-refresh every 60 minutes without page reload
+- 📸 Image upload modal with preview functionality
+- 🎨 Color-coded task visualization
+- 📱 Responsive design with Bootstrap
 
-# Task
+## Technical Stack
 
-Develop a web page that connects to a remote API, downloads a dataset, displays a table with the downloaded dataset, and provides some basic search and filter functions.
+- Backend: PHP
+- Frontend: JavaScript (ES6+)
+- UI Framework: Bootstrap 5.3.0
+- API: baubuddy.de REST API
 
-In particular, the web page should:
+## Project Structure
 
-- Request the data located at `https://api.baubuddy.de/dev/index.php/v1/tasks/select` from PHP
-- Display the downloaded data in a table showing `task`, `title`, `description` and `colorCode`. The displayed HTML element for the `colorCode` should have its color set accordingly
-- Create a search which allows searching for any of the data in the table
-- Implement auto-refresh functionality which requests the data from above every 60 minutes and updates the table with the new data without reloading the web page. The data should be fetched via PHP
-- Outside the table, create a button that opens a modal. In this modal, there should be another button that allows you to select any image from the file system. When you have selected the image, it will be displayed in the modal
-  - Note that this is not linked to the data from above
-
-# Authorization
-
-It is mandatory that your requests to the API are authorized. You can find the required request below:
-
-This is how it looks in `curl`:
-
-```bash
-curl --request POST \
-  --url https://api.baubuddy.de/index.php/login \
-  --header 'Authorization: Basic QVBJX0V4cGxvcmVyOjEyMzQ1NmlzQUxhbWVQYXNz' \
-  --header 'Content-Type: application/json' \
-  --data '{
-        "username":"365",
-        "password":"1"
-}'
+```
+├── index.php    # Main application interface
+├── api.php      # Backend API handler
+└── script.js    # Frontend functionality
 ```
 
-The response will contain a JSON object, having the access token in `json["oauth"]["access_token"]`. For all subsequent calls this has to be added to the request headers as `Authorization: Bearer {access_token}`.
+## Setup
 
-A possible implementation in `PHP` could be the following. You don't have to adopt this, you can also customize it or use another network library.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/PavleCvorovic/Task-Management-Portal.git
+   ```
 
-```php
-<?php
-$curl = curl_init();
-curl_setopt_array($curl, [
-  CURLOPT_URL => "https://api.baubuddy.de/index.php/login",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => "",
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 30,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_POSTFIELDS => "{\"username\":\"365\", \"password\":\"1\"}",
-  CURLOPT_HTTPHEADER => [
-    "Authorization: Basic QVBJX0V4cGxvcmVyOjEyMzQ1NmlzQUxhbWVQYXNz",
-    "Content-Type: application/json"
-  ],
-]);
-$response = curl_exec($curl);
-$err = curl_error($curl);
-curl_close($curl);
-if ($err) {
-  echo "cURL Error #:" . $err;
-} else {
-  echo $response;
-}
-?>
-```
+2. Start PHP development server:
+   ```bash
+   php -S localhost:8000
+   ```
+
+3. Access the application at `http://localhost:8000`
+
+## API Integration
+
+The application integrates with the baubuddy.de API using OAuth authentication:
+
+- Automatic token management
+- Secure API communication
+- Regular data refresh
+- Error handling
+
+## Features in Detail
+
+### Task Display
+- Table shows task, title, description, and colorCode
+- Color indicators based on colorCode values
+- Responsive table layout
+
+### Search Functionality
+- Real-time search across all table data
+- Dynamic filtering
+- No page reload required
+
+### Image Upload
+- File system image selection
+- Preview in modal
+- Supports common image formats
+
+### Auto-Refresh
+- Automatic data refresh every 60 minutes
+- Updates without page reload
+- Loading indicator during refresh
+
+## Development
+
+This project was developed as part of a technical assessment for VERO Digital Solutions, based on their [web-portal-task](https://github.com/VERO-Digital-Solutions/web-portal-task) requirements. 
